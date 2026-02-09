@@ -1,0 +1,179 @@
+/* --- 1. RESET & BOX MODEL --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- 2. VARIABLES & THEME --- */
+:root {
+    --bg-color: #ffe6ea;        /* Baby Pink */
+    --accent-pink: #ffb7c5;     /* Button/Candle Pink */
+    --deep-pink: #d63384;       /* Text Color */
+    --med-blue: #6cb6ff;        /* Medical Blue accent */
+    --candle-wax: #fff;
+    --flame-core: #ff9900;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden; /* Prevents scrollbars */
+    position: relative;
+}
+
+/* --- 3. UI ELEMENTS --- */
+
+/* Medical Pill Button */
+.pill-btn {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--accent-pink) 50%, var(--med-blue) 50%);
+    border: 4px solid white;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    z-index: 100;
+}
+
+.pill-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Candle Styling */
+.candle-wrapper {
+    display: none; /* Hidden until start */
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    transition: opacity 1s ease;
+}
+
+.candle {
+    width: 70px;
+    height: 180px;
+    background: var(--candle-wax);
+    border-radius: 8px;
+    box-shadow: inset -15px 0 15px rgba(0,0,0,0.05);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.age-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--accent-pink);
+    font-family: 'Courier New', monospace;
+}
+
+.wick {
+    width: 4px;
+    height: 15px;
+    background: #555;
+    margin-bottom: -2px;
+}
+
+.flame {
+    width: 30px;
+    height: 50px;
+    background: var(--flame-core);
+    border-radius: 50% 50% 20% 20%;
+    box-shadow: 0 0 20px var(--flame-core), 0 0 60px #ff3300;
+    animation: flicker 0.1s infinite alternate;
+    transform-origin: center bottom;
+    margin-bottom: 5px;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.1) rotate(2deg); opacity: 0.9; }
+}
+
+.instruction {
+    margin-top: 25px;
+    color: var(--deep-pink);
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 1.5;
+    animation: heartbeat 2s infinite;
+}
+
+/* --- 4. MESSAGE & PHOTOS --- */
+.message-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease-in;
+    z-index: 20; /* Above photos */
+    width: 90%;
+    max-width: 600px;
+}
+
+.title {
+    font-size: 3rem;
+    color: var(--deep-pink);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+/* ECG Line Animation */
+.ecg-line {
+    height: 2px;
+    width: 0%;
+    background: var(--deep-pink);
+    margin: 0 auto;
+    transition: width 2s ease-in-out;
+    box-shadow: 0 0 10px var(--deep-pink);
+}
+
+/* The Burst Photos */
+.burst-photo {
+    position: absolute;
+    width: 150px;
+    border: 5px solid white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    /* Start at center */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 5; /* Behind text */
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.1); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* --- 5. RESPONSIVENESS --- */
+@media screen and (max-width: 600px) {
+    .candle { width: 50px; height: 140px; }
+    .age-text { font-size: 1.8rem; }
+    .title { font-size: 2rem; }
+    .subtitle { font-size: 1.1rem; }
+    .burst-photo { width: 100px; } /* Smaller photos on phone */
+}
